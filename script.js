@@ -67,3 +67,31 @@ video.addEventListener("loadedmetadata", () => {
 timeline.addEventListener("input", () => {
     video.currentTime = timeline.value;
 });
+
+let trimStart = 0;
+let trimEnd = 0;
+
+const trimInfo = document.getElementById("trimInfo");
+
+function formatTime(seconds) {
+    let min = Math.floor(seconds / 60);
+    let sec = Math.floor(seconds % 60);
+
+    if (sec < 10) sec = "0" + sec;
+
+    return min + ":" + sec;
+}
+
+function setTrimStart() {
+    trimStart = video.currentTime;
+    trimInfo.innerText =
+        "Start: " + formatTime(trimStart) +
+        " | End: " + formatTime(trimEnd);
+}
+
+function setTrimEnd() {
+    trimEnd = video.currentTime;
+    trimInfo.innerText =
+        "Start: " + formatTime(trimStart) +
+        " | End: " + formatTime(trimEnd);
+        }
