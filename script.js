@@ -30,3 +30,21 @@ player.addEventListener("timeupdate", function () {
 timeline.addEventListener("input", function () {
     player.currentTime = timeline.value;
 });
+
+const video = document.getElementById("videoPlayer");
+
+function playVideo() {
+    video.play();
+}
+
+function pauseVideo() {
+    video.pause();
+}
+
+function backward() {
+    video.currentTime -= 5;
+}
+
+function forward() {
+    video.currentTime += 5;
+}
