@@ -31,3 +31,29 @@ video{
     font-size:18px;
     margin:10px;
 }
+
+.trim-controls {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.trim-controls button {
+    padding: 10px 20px;
+    background: #0f62fe;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.trim-controls button:hover {
+    opacity: 0.9;
+}
+
+#trimInfo {
+    text-align: center;
+    margin-top: 10px;
+    color: white;
+}
