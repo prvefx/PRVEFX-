@@ -1,39 +1,32 @@
-document.getElementById("newProject").onclick = () => {
+// PRVEFX AI Video Editor
 
-document.body.innerHTML = `
-
-<header>
-<h1>PRVEFX Editor</h1>
-</header>
-
-<div class="editor">
-
-<div class="preview">
-<video id="videoPlayer" controls width="100%" height="100%"></video>
-</div>
-
-<div style="padding:15px;text-align:center;">
-<input type="file" id="videoInput" accept="video/*">
-</div>
-
-<div class="timeline">
-<h2>⏱ Timeline (Coming Soon)</h2>
-</div>
-
-</div>
-
-`;
-
-const input = document.getElementById("videoInput");
+const upload = document.getElementById("videoUpload");
 const player = document.getElementById("videoPlayer");
+const timeline = document.getElementById("timeline");
+const currentTime = document.getElementById("currentTime");
 
-input.onchange = function () {
-const file = this.files[0];
+upload.addEventListener("change", function () {
+    const file = this.files[0];
 
-if(file){
-player.src = URL.createObjectURL(file);
-player.play();
-}
-};
+    if (file) {
+        const url = URL.createObjectURL(file);
+        player.src = url;
+        player.load();
+    }
+});
 
-};
+player.addEventListener("timeupdate", function () {
+    timeline.value = player.currentTime;
+    timeline.max = player.duration || 0;
+
+    let min = Math.floor(player.currentTime / 60);
+    let sec = Math.floor(player.currentTime % 60);
+
+    if (sec < 10) sec = "0" + sec;
+
+    currentTime.innerText = min + ":" + sec;
+});
+
+timeline.addEventListener("input", function () {
+    player.currentTime = timeline.value;
+});
