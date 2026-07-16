@@ -48,3 +48,22 @@ function backward() {
 function forward() {
     video.currentTime += 5;
 }
+
+video.addEventListener("timeupdate", () => {
+    timeline.value = video.currentTime;
+
+    let minutes = Math.floor(video.currentTime / 60);
+    let seconds = Math.floor(video.currentTime % 60);
+
+    if (seconds < 10) seconds = "0" + seconds;
+
+    currentTime.textContent = `${minutes}:${seconds}`;
+});
+
+video.addEventListener("loadedmetadata", () => {
+    timeline.max = video.duration;
+});
+
+timeline.addEventListener("input", () => {
+    video.currentTime = timeline.value;
+});
