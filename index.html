@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRVEFX Video Editor</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRVEFX AI Video Editor</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-    <h1>PRVEFX Video Editor</h1>
-</header>
+<h1>PRVEFX AI Video Editor</h1>
 
-<div class="home">
-    <button id="newProject">🎬 New Project</button>
-    <button id="importMedia">📁 Import Media</button>
-</div>
+<input type="file" id="videoUpload" accept="video/*">
+
+<br><br>
+
+<video id="videoPlayer" width="100%" controls></video>
+
+<br><br>
+
+<input type="range" id="timeline" value="0" min="0">
+
+<p id="currentTime">0:00</p>
 
 <script src="script.js"></script>
 
