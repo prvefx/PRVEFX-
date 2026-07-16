@@ -1,7 +1,29 @@
 document.getElementById("newProject").onclick = () => {
-    alert("New Project Coming Soon!");
-}
 
-document.getElementById("importMedia").onclick = () => {
-    alert("Import Media Coming Soon!");
-}
+document.body.innerHTML = `
+
+<header>
+
+<h1>PRVEFX Editor</h1>
+
+</header>
+
+<div class="editor">
+
+<div class="preview">
+
+<h2>🎬 Video Preview</h2>
+
+</div>
+
+<div class="timeline">
+
+<h2>⏱ Timeline</h2>
+
+</div>
+
+</div>
+
+`;
+
+};
