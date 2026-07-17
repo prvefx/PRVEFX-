@@ -1,448 +1,318 @@
-/* ===================================
-   PRVEFX VIDEO EDITOR v2
-   PART 1
-=================================== */
+// ===================================
+// PRVEFX VIDEO EDITOR v2
+// Script Part 1
+// ===================================
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
-}
+// Elements
+const upload = document.getElementById("videoUpload");
+const video = document.getElementById("videoPlayer");
+const timeline = document.getElementById("timeline");
 
-body{
+const currentTime = document.getElementById("currentTime");
+const startTime = document.getElementById("startTime");
+const endTime = document.getElementById("endTime");
 
-background:#0f1117;
+const trimInfo = document.getElementById("trimInfo");
 
-color:white;
+// Trim Values
+let trimStart = 0;
+let trimEnd = 0;
 
-overflow-x:hidden;
+// Upload Video
+upload.addEventListener("change", function () {
 
-padding-bottom:110px;
+    const file = this.files[0];
 
-}
+    if (!file) return;
 
-.top-bar{
+    const url = URL.createObjectURL(file);
 
-height:70px;
+    video.src = url;
 
-background:#181d29;
+    video.load();
 
-display:flex;
+});
 
-align-items:center;
+// Video Ready
+video.addEventListener("loadedmetadata", () => {
 
-justify-content:space-between;
+    timeline.max = video.duration;
 
-padding:15px 18px;
+    endTime.textContent = formatTime(video.duration);
 
-border-bottom:1px solid #2d3343;
+    trimEnd = video.duration;
 
-position:sticky;
+    trimInfo.textContent =
+    "Start: " +
+    formatTime(trimStart) +
+    " | End: " +
+    formatTime(trimEnd);
 
-top:0;
+});
 
-z-index:1000;
+// Timeline Update
+video.addEventListener("timeupdate", () => {
 
-}
+    timeline.value = video.currentTime;
 
-.logo h2{
+    currentTime.textContent =
+    formatTime(video.currentTime);
 
-color:#00d4ff;
+});
 
-font-size:25px;
+// Timeline Drag
+timeline.addEventListener("input", () => {
 
-font-weight:bold;
+    video.currentTime = timeline.value;
 
-}
+});
 
-.logo p{
+// Format Time
+function formatTime(seconds){
 
-font-size:12px;
+seconds=Math.floor(seconds);
 
-color:#8b95a7;
+let min=Math.floor(seconds/60);
 
-margin-top:2px;
+let sec=seconds%60;
 
-}
+if(sec<10){
 
-.top-right{
-
-display:flex;
-
-gap:10px;
-
-}
-
-.icon-button{
-
-width:45px;
-
-height:45px;
-
-border:none;
-
-border-radius:14px;
-
-background:#232938;
-
-color:white;
-
-font-size:20px;
+sec="0"+sec;
 
 }
 
-.export-button{
+return min+":"+sec;
 
-height:45px;
 
-padding:0 20px;
+   // ===================================
+// PRVEFX VIDEO EDITOR v2
+// Script Part 2
+// Controls + Trim
+// ===================================
 
-border:none;
 
-border-radius:14px;
+// Play Video
 
-background:#00d4ff;
+function playVideo(){
 
-color:black;
-
-font-size:15px;
-
-font-weight:bold;
+    video.play();
 
 }
 
-.preview-card{
 
-margin:15px;
+// Pause Video
 
-padding:15px;
+function pauseVideo(){
 
-background:#181d29;
-
-border-radius:22px;
-
-box-shadow:0 0 20px rgba(0,0,0,.35);
+    video.pause();
 
 }
 
-#videoUpload{
 
-width:100%;
+// Backward 5 Seconds
 
-margin-bottom:15px;
+function backward(){
 
-}
+    video.currentTime -= 5;
 
-#videoPlayer{
+    if(video.currentTime < 0){
 
-width:100%;
+        video.currentTime = 0;
 
-border-radius:18px;
-
-background:black;
+    }
 
 }
 
-#currentTime{
 
-text-align:center;
+// Forward 5 Seconds
 
-margin-top:12px;
+function forward(){
 
-font-size:16px;
+    video.currentTime += 5;
 
-color:#00d4ff;
+    if(video.currentTime > video.duration){
 
-font-weight:bold;
+        video.currentTime = video.duration;
 
-}
-
-/* ===================================
-   PRVEFX VIDEO EDITOR v2
-   PART 2
-=================================== */
-
-.timeline-card{
-
-margin:15px;
-
-background:#181d29;
-
-padding:18px;
-
-border-radius:22px;
-
-box-shadow:0 0 20px rgba(0,0,0,.35);
+    }
 
 }
 
-.time-row{
 
-display:flex;
+// Set Trim Start
 
-align-items:center;
+function setTrimStart(){
 
-gap:12px;
+    trimStart = video.currentTime;
 
-}
-
-#startTime,
-#endTime{
-
-width:45px;
-
-font-size:14px;
-
-font-weight:bold;
-
-color:#00d4ff;
-
-text-align:center;
+    trimInfo.textContent =
+    "Start: " +
+    formatTime(trimStart) +
+    " | End: " +
+    formatTime(trimEnd);
 
 }
 
-#timeline{
 
-flex:1;
+// Set Trim End
 
-height:6px;
+function setTrimEnd(){
 
-appearance:none;
+    trimEnd = video.currentTime;
 
-background:#2b3244;
+    trimInfo.textContent =
+    "Start: " +
+    formatTime(trimStart) +
+    " | End: " +
+    formatTime(trimEnd);
 
-border-radius:20px;
 
-outline:none;
+
+
+
+
+
+   // ===================================
+// PRVEFX VIDEO EDITOR v2
+// Script Part 3
+// Bottom Toolbar + Tool Panel Logic
+// ===================================
+
+
+const tools = document.querySelectorAll(".tool");
+
+const panel = document.querySelector(".tool-panel");
+
+const closePanel = document.querySelector(".close-panel");
+
+const panelContent = document.querySelector(".panel-content");
+
+
+// Tool Data
+
+const toolOptions = {
+
+    Edit:[
+        "✂ Split",
+        "⚡ Speed",
+        "🔊 Volume",
+        "🎨 Filter",
+        "✨ Effects"
+    ],
+
+    Audio:[
+        "🎵 Music",
+        "🎤 Voice",
+        "🔊 Volume",
+        "Fade"
+    ],
+
+    Text:[
+        "📝 Add Text",
+        "Font",
+        "Style",
+        "Animation"
+    ],
+
+    Effects:[
+        "✨ Glow",
+        "🌪 Blur",
+        "Shake",
+        "Zoom"
+    ],
+
+    Filters:[
+        "🎨 Color",
+        "Cinema",
+        "Vintage",
+        "HDR"
+    ]
+
+};
+
+
+// Open Tool Panel
+
+tools.forEach(tool => {
+
+    tool.addEventListener("click",()=>{
+
+
+        tools.forEach(t=>{
+
+            t.classList.remove("active");
+
+        });
+
+
+        tool.classList.add("active");
+
+
+        let name = tool.innerText.trim();
+
+
+        openToolPanel(name);
+
+
+    });
+
+});
+
+
+// Show Panel Content
+
+function openToolPanel(name){
+
+
+    if(!panel) return;
+
+
+    panel.classList.add("show");
+
+
+    if(panelContent){
+
+
+        panelContent.innerHTML="";
+
+
+        let list = toolOptions[name] || [];
+
+
+        list.forEach(item=>{
+
+
+            let button=document.createElement("button");
+
+
+            button.className="panel-tool";
+
+
+            button.innerText=item;
+
+
+            panelContent.appendChild(button);
+
+
+        });
+
+
+    }
 
 }
 
-#timeline::-webkit-slider-thumb{
 
-appearance:none;
+// Close Panel
 
-width:18px;
+if(closePanel){
 
-height:18px;
 
-border-radius:50%;
+closePanel.addEventListener("click",()=>{
 
-background:#00d4ff;
 
-}
+    panel.classList.remove("show");
 
-.trim-buttons{
 
-display:flex;
 
-gap:12px;
 
-margin-top:18px;
-
-}
-
-.trim-buttons button{
-
-flex:1;
-
-height:45px;
-
-border:none;
-
-border-radius:14px;
-
-background:#232938;
-
-color:white;
-
-font-size:15px;
-
-font-weight:bold;
-
-}
-
-#trimInfo{
-
-margin-top:15px;
-
-text-align:center;
-
-font-size:15px;
-
-color:#cfd6e4;
-
-}
-
-.controls-card{
-
-margin:15px;
-
-display:flex;
-
-justify-content:space-evenly;
-
-align-items:center;
-
-background:#181d29;
-
-padding:15px;
-
-border-radius:22px;
-
-}
-
-.controls-card button{
-
-width:60px;
-
-height:60px;
-
-border:none;
-
-border-radius:18px;
-
-background:#232938;
-
-color:white;
-
-font-size:24px;
-
-transition:.25s;
-
-}
-
-.controls-card button:active{
-
-transform:scale(.92);
-
-background:#00d4ff;
-
-color:black;
-
-}
-
-/* ===================================
-   PRVEFX VIDEO EDITOR v2
-   PART 3 - PREMIUM BOTTOM TOOLBAR
-=================================== */
-
-.bottom-toolbar{
-
-position:fixed;
-
-left:0;
-
-bottom:0;
-
-width:100%;
-
-background:rgba(18,22,33,.96);
-
-backdrop-filter:blur(18px);
-
-border-top:1px solid #2d3343;
-
-padding:12px 10px;
-
-z-index:999;
-
-}
-
-.toolbar-scroll{
-
-display:flex;
-
-overflow-x:auto;
-
-gap:14px;
-
-scrollbar-width:none;
-
-}
-
-.toolbar-scroll::-webkit-scrollbar{
-
-display:none;
-
-}
-
-.tool{
-
-min-width:82px;
-
-background:#202635;
-
-border:none;
-
-border-radius:20px;
-
-padding:10px 8px;
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-justify-content:center;
-
-color:#d6dbe7;
-
-transition:.25s;
-
-}
-
-.tool-icon{
-
-width:50px;
-
-height:50px;
-
-border-radius:16px;
-
-background:#2b3244;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-size:24px;
-
-margin-bottom:8px;
-
-transition:.25s;
-
-}
-
-.tool span{
-
-font-size:13px;
-
-font-weight:700;
-
-}
-
-.tool.active{
-
-background:#00d4ff;
-
-color:#000;
-
-}
-
-.tool.active .tool-icon{
-
-background:#fff;
-
-color:#000;
-
-}
-
-.tool:active{
-
-transform:scale(.95);
-
-}
