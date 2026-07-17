@@ -1,41 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>PRVEFX Video Editor</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="style.css">
+
 </head>
 
 <body>
 
+<!-- ========================= -->
+
 <!-- TOP BAR -->
+
+<!-- ========================= -->
+
 <header class="top-bar">
 
-    <div class="logo-box">
-        <h2>PRVEFX</h2>
-        <p>AI Video Editor</p>
-    </div>
+<div class="logo">
 
-    <div class="top-buttons">
+<h2>PRVEFX</h2>
 
-        <button class="icon-btn">
-            ⚙️
-        </button>
+<p>AI Video Editor</p>
 
-        <button class="export-btn">
-            Export
-        </button>
+</div>
 
-    </div>
+<div class="top-right">
+
+<button class="icon-button">
+
+⚙
+
+</button>
+
+<button class="export-button">
+
+Export
+
+</button>
+
+</div>
 
 </header>
 
-<!-- VIDEO PREVIEW -->
+<!-- ========================= -->
 
-<section class="preview-section">
+<!-- VIDEO AREA -->
+
+<!-- ========================= -->
+
+<section class="preview-card">
 
 <input
 type="file"
@@ -45,114 +67,147 @@ accept="video/*">
 <video
 id="videoPlayer"
 controls>
+
 </video>
 
-<p id="currentTime">0:00</p>
+<p id="currentTime">
+
+0:00
+
+</p>
 
 </section>
+
+<!-- ========================= -->
+
 <!-- TIMELINE -->
 
-<section class="timeline-section">
+<!-- ========================= -->
 
-    <input
-        type="range"
-        id="timeline"
-        value="0"
-        min="0">
+<section class="timeline-card">
 
-    <div class="trim-panel">
+<div class="time-row">
 
-        <button onclick="setTrimStart()">
-            ✂ Start
-        </button>
+<span id="startTime">
+0:00
+</span>
 
-        <button onclick="setTrimEnd()">
-            ✂ End
-        </button>
+<input
+type="range"
+id="timeline"
+value="0"
+min="0">
 
-        <p id="trimInfo">
-            Start: 0:00 | End: 0:00
-        </p>
+<span id="endTime">
+0:00
+</span>
 
-    </div>
+</div>
+
+<div class="trim-buttons">
+
+<button onclick="setTrimStart()">
+
+✂ Set Start
+
+</button>
+
+<button onclick="setTrimEnd()">
+
+✂ Set End
+
+</button>
+
+</div>
+
+<p id="trimInfo">
+
+Start: 0:00 | End: 0:00
+
+</p>
 
 </section>
 
+<!-- ========================= -->
+
+<!-- PLAYER CONTROLS -->
+
+<!-- ========================= -->
+
+<section class="controls-card">
+
+<button onclick="backward()">
+
+⏪
+
+</button>
+
+<button onclick="playVideo()">
+
+▶
+
+</button>
+
+<button onclick="pauseVideo()">
+
+⏸
+
+</button>
+
+<button onclick="forward()">
+
+⏩
+
+</button>
+
+</section>
+
+<!-- ========================= -->
 <!-- BOTTOM TOOLBAR -->
+<!-- ========================= -->
 
-<nav class="bottom-nav">
+<nav class="bottom-toolbar">
 
-<div class="tool active">
-    <div class="icon">✂</div>
-    <span>Edit</span>
-</div>
+<div class="toolbar-scroll">
 
-<div class="tool">
-    <div class="icon">🎵</div>
-    <span>Audio</span>
-</div>
+<button class="tool active">
+<div class="tool-icon">✂</div>
+<span>Edit</span>
+</button>
 
-<div class="tool">
-    <div class="icon">📝</div>
-    <span>Text</span>
-</div>
+<button class="tool">
+<div class="tool-icon">🎵</div>
+<span>Audio</span>
+</button>
 
-<div class="tool">
-    <div class="icon">✨</div>
-    <span>Effects</span>
-</div>
+<button class="tool">
+<div class="tool-icon">📝</div>
+<span>Text</span>
+</button>
 
-<div class="tool">
-    <div class="icon">🎨</div>
-    <span>Filters</span>
-</div>
+<button class="tool">
+<div class="tool-icon">✨</div>
+<span>Effects</span>
+</button>
 
-<div class="tool">
-    <div class="icon">⚡</div>
-    <span>Speed</span>
-</div>
+<button class="tool">
+<div class="tool-icon">🎨</div>
+<span>Filters</span>
+</button>
 
-<div class="tool">
-    <div class="icon">📦</div>
-    <span>Export</span>
+<button class="tool">
+<div class="tool-icon">⚡</div>
+<span>Speed</span>
+</button>
+
+<button class="tool">
+<div class="tool-icon">📤</div>
+<span>Export</span>
+</button>
+
 </div>
 
 </nav>
-<!-- PLAYBACK CONTROLS -->
-
-<section class="player-controls">
-
-    <button onclick="backward()">
-        ⏪
-    </button>
-
-    <button onclick="playVideo()">
-        ▶
-    </button>
-
-    <button onclick="pauseVideo()">
-        ⏸
-    </button>
-
-    <button onclick="forward()">
-        ⏩
-    </button>
-
-</section>
-
-<!-- DYNAMIC TOOL PANEL -->
-
-<section class="tool-panel">
-
-    <div id="toolContent">
-
-        <h3>Welcome to PRVEFX Video Editor</h3>
-
-        <p>Select a tool below to start editing your video.</p>
-
-    </div>
-
-</section>
 
 <script src="script.js"></script>
 
