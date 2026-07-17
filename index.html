@@ -3,47 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRVEFX AI Video Editor</title>
+
+<title>PRVEFX Video Editor</title>
 
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>PRVEFX AI Video Editor</h1>
+<!-- TOP BAR -->
+<header class="top-bar">
 
-<input type="file" id="videoUpload" accept="video/*">
+    <div class="logo-box">
+        <h2>PRVEFX</h2>
+        <p>AI Video Editor</p>
+    </div>
 
-<br><br>
+    <div class="top-buttons">
 
-<video id="videoPlayer" width="100%" controls></video>
+        <button class="icon-btn">
+            ⚙️
+        </button>
 
-<br><br>
+        <button class="export-btn">
+            Export
+        </button>
 
-<input type="range" id="timeline" value="0" min="0">
+    </div>
+
+</header>
+
+<!-- VIDEO PREVIEW -->
+
+<section class="preview-section">
+
+<input
+type="file"
+id="videoUpload"
+accept="video/*">
+
+<video
+id="videoPlayer"
+controls>
+</video>
 
 <p id="currentTime">0:00</p>
-  
- <div class="controls">
 
-   <div class="trim-controls">
-    <button onclick="setTrimStart()">Set Start</button>
-    <button onclick="setTrimEnd()">Set End</button>
-</div>
+</section>
+<!-- TIMELINE -->
 
-<p id="trimInfo">
-    Start: 0:00 | End: 0:00
-</p>
-<button onclick="playVideo()">▶️ Play</button>
+<section class="timeline-section">
 
-<button onclick="pauseVideo()">⏸️ Pause</button>
+    <input
+        type="range"
+        id="timeline"
+        value="0"
+        min="0">
 
-<button onclick="backward()">⏪ -5s</button>
+    <div class="trim-panel">
 
-<button onclick="forward()">⏩ +5s</button>
+        <button onclick="setTrimStart()">
+            ✂ Start
+        </button>
 
-</div>
-  
+        <button onclick="setTrimEnd()">
+            ✂ End
+        </button>
+
+        <p id="trimInfo">
+            Start: 0:00 | End: 0:00
+        </p>
+
+    </div>
+
+</section>
+
+<!-- BOTTOM TOOLBAR -->
+
+<nav class="bottom-toolbar">
+
+    <button class="tool-btn">
+        ✂<br>Edit
+    </button>
+
+    <button class="tool-btn">
+        🎵<br>Audio
+    </button>
+
+    <button class="tool-btn">
+        📝<br>Text
+    </button>
+
+    <button class="tool-btn">
+        ✨<br>Effects
+    </button>
+
+    <button class="tool-btn">
+        🎨<br>Filters
+    </button>
+
+</nav>
+<!-- PLAYBACK CONTROLS -->
+
+<section class="player-controls">
+
+    <button onclick="backward()">
+        ⏪
+    </button>
+
+    <button onclick="playVideo()">
+        ▶
+    </button>
+
+    <button onclick="pauseVideo()">
+        ⏸
+    </button>
+
+    <button onclick="forward()">
+        ⏩
+    </button>
+
+</section>
+
+<!-- DYNAMIC TOOL PANEL -->
+
+<section class="tool-panel">
+
+    <div id="toolContent">
+
+        <h3>Welcome to PRVEFX Video Editor</h3>
+
+        <p>Select a tool below to start editing your video.</p>
+
+    </div>
+
+</section>
+
 <script src="script.js"></script>
 
 </body>
