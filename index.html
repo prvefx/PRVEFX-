@@ -4,212 +4,285 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PRVEFX Video Editor</title>
 
-<link rel="stylesheet"
-href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
+
 <body>
 
-<!-- ========================= -->
+
+<!-- APP CONTAINER -->
+
+<div class="editor-app">
+
 
 <!-- TOP BAR -->
 
-<!-- ========================= -->
-
 <header class="top-bar">
 
-<div class="logo">
+    <div class="logo">
+        PRVEFX
+    </div>
 
-<h2>PRVEFX</h2>
+    <div class="project-name">
+        Video Editor
+    </div>
 
-<p>AI Video Editor</p>
-
-</div>
-
-<div class="top-right">
-
-<button class="icon-button">
-
-⚙
-
-</button>
-
-<button class="export-button">
-
-Export
-
-</button>
-
-</div>
+    <button class="export-btn">
+        Export
+    </button>
 
 </header>
 
-<!-- ========================= -->
 
-<!-- VIDEO AREA -->
 
-<!-- ========================= -->
+<!-- VIDEO PREVIEW -->
 
-<section class="preview-card">
+<section class="preview-section">
 
-<input
-type="file"
-id="videoUpload"
-accept="video/*">
 
-<video
-id="videoPlayer"
-controls>
+<div class="video-card">
+
+
+<video id="videoPreview">
 
 </video>
 
-<p id="currentTime">
 
-0:00
+<div class="video-overlay">
 
-</p>
+    <span id="currentTime">
+        00:00
+    </span>
+
+
+    <span>
+        /
+    </span>
+
+
+    <span id="endTime">
+        00:00
+    </span>
+
+
+</div>
+
+
+</div>
+
 
 </section>
 
-<!-- ========================= -->
+  <!-- TIMELINE SECTION -->
 
-<!-- TIMELINE -->
+<section class="timeline-section">
 
-<!-- ========================= -->
 
-<section class="timeline-card">
+<div class="timeline-header">
 
-<div class="time-row">
+    <span>
+        Timeline
+    </span>
 
-<span id="startTime">
-0:00
-</span>
+</div>
 
-<input
+
+
+<div class="timeline-container">
+
+
+<input 
 type="range"
 id="timeline"
 value="0"
-min="0">
+min="0"
+max="100">
 
-<span id="endTime">
-0:00
-</span>
 
-</div>
+<div class="timeline-track">
 
-<div class="trim-buttons">
 
-<button onclick="setTrimStart()">
-
-✂ Set Start
-
-</button>
-
-<button onclick="setTrimEnd()">
-
-✂ Set End
-
-</button>
+<div class="video-layer">
 
 </div>
 
-<p id="trimInfo">
 
-Start: 0:00 | End: 0:00
+</div>
 
-</p>
+
+</div>
+
 
 </section>
 
-<!-- ========================= -->
 
-<!-- PLAYER CONTROLS -->
 
-<!-- ========================= -->
 
-<section class="controls-card">
+<!-- CONTROL PANEL -->
 
-<button onclick="backward()">
 
-⏪
+<section class="controls">
 
+
+<button id="backwardBtn">
+⏮
 </button>
 
-<button onclick="playVideo()">
 
+<button id="playBtn">
 ▶
-
 </button>
 
-<button onclick="pauseVideo()">
 
+<button id="pauseBtn">
 ⏸
-
 </button>
 
-<button onclick="forward()">
 
-⏩
-
+<button id="forwardBtn">
+⏭
 </button>
 
-</section>
 
-<!-- ========================= -->
-<!-- BOTTOM TOOLBAR -->
-<!-- ========================= -->
+
+<button id="trimStart">
+Trim Start
+</button>
+
+
+<button id="trimEnd">
+Trim End
+</button>
+
+
+</section> 
+
+  <!-- BOTTOM TOOLBAR -->
+
 
 <nav class="bottom-toolbar">
 
+
 <div class="toolbar-scroll">
 
-<button class="tool active">
-<div class="tool-icon">✂</div>
-<span>Edit</span>
+
+<button class="tool-btn" data-tool="edit">
+Edit
 </button>
 
-<button class="tool">
-<div class="tool-icon">🎵</div>
-<span>Audio</span>
+
+<button class="tool-btn" data-tool="audio">
+Audio
 </button>
 
-<button class="tool">
-<div class="tool-icon">📝</div>
-<span>Text</span>
+
+<button class="tool-btn" data-tool="text">
+Text
 </button>
 
-<button class="tool">
-<div class="tool-icon">✨</div>
-<span>Effects</span>
+
+<button class="tool-btn" data-tool="effects">
+Effects
 </button>
 
-<button class="tool">
-<div class="tool-icon">🎨</div>
-<span>Filters</span>
+
+<button class="tool-btn" data-tool="filters">
+Filters
 </button>
 
-<button class="tool">
-<div class="tool-icon">⚡</div>
-<span>Speed</span>
-</button>
 
-<button class="tool">
-<div class="tool-icon">📤</div>
-<span>Export</span>
-</button>
 
 </div>
 
+
+
+<button class="export-bottom">
+Export
+</button>
+
+
 </nav>
+
+
+
+
+
+<!-- SLIDING TOOL PANEL -->
+
+
+<div class="tool-panel" id="toolPanel">
+
+
+<div class="panel-handle"></div>
+
+
+
+<button 
+class="panel-close"
+id="closePanel">
+
+✕
+
+</button>
+
+
+
+
+<div class="tool-category">
+
+
+<button>
+Edit
+</button>
+
+
+<button>
+Audio
+</button>
+
+
+<button>
+Text
+</button>
+
+
+<button>
+Effects
+</button>
+
+
+</div>
+
+
+
+
+<div 
+class="tool-content"
+id="toolContent">
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
 
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
