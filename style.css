@@ -163,3 +163,174 @@ body {
     gap: 5px;
 
 }
+
+
+
+/* =========================
+      TIMELINE SECTION
+========================= */
+
+
+.timeline-section {
+
+    width: 100%;
+    padding: 10px 15px;
+
+}
+
+
+
+.timeline-header {
+
+    font-size: 16px;
+    font-weight: 700;
+
+    margin-bottom: 10px;
+
+}
+
+
+
+.timeline-container {
+
+    width: 100%;
+
+    background: #111;
+
+    border-radius: 12px;
+
+    padding: 12px;
+
+}
+
+
+
+#timeline {
+
+    width: 100%;
+
+    accent-color: #00c853;
+
+}
+
+
+
+.timeline-track {
+
+    width: 100%;
+
+    height: 60px;
+
+    margin-top: 12px;
+
+    background: #1b1b1b;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+
+
+.video-layer {
+
+    height: 45px;
+
+    width: 80%;
+
+    margin-left: 10px;
+
+    background: linear-gradient(
+        90deg,
+        #333,
+        #555
+    );
+
+    border-radius: 8px;
+
+}
+
+
+
+
+
+/* =========================
+          CONTROLS
+========================= */
+
+
+.controls {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    flex-wrap: wrap;
+
+}
+
+
+
+.controls button {
+
+    background: #181818;
+
+    color: white;
+
+    border: 1px solid #333;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+}
+
+
+
+.controls button:active {
+
+    transform: scale(0.95);
+
+}
+
+
+
+#playBtn {
+
+    background: #00c853;
+
+    border: none;
+
+}
+
+
+
+#pauseBtn {
+
+    background: #222;
+
+}
+
+
+
+#trimStart,
+#trimEnd {
+
+    font-size: 12px;
+
+}
