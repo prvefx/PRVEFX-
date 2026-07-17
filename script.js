@@ -1,94 +1,405 @@
-// PRVEFX AI Video Editor
+/* =========================
+   PRVEFX VIDEO EDITOR
+   SCRIPT JS PART 1
+========================= */
 
-const upload = document.getElementById("videoUpload");
-const video = document.getElementById("videoPlayer");
+
+const video = document.getElementById("videoPreview");
+
 const timeline = document.getElementById("timeline");
+
+const playBtn = document.getElementById("playBtn");
+
+const pauseBtn = document.getElementById("pauseBtn");
+
+const forwardBtn = document.getElementById("forwardBtn");
+
+const backwardBtn = document.getElementById("backwardBtn");
+
 const currentTime = document.getElementById("currentTime");
-const trimInfo = document.getElementById("trimInfo");
 
-// Trim Variables
-let trimStart = 0;
-let trimEnd = 0;
+const endTime = document.getElementById("endTime");
 
-// Upload Video
-upload.addEventListener("change", function () {
-    const file = this.files[0];
 
-    if (file) {
-        const url = URL.createObjectURL(file);
-        video.src = url;
-        video.load();
-    }
+
+
+
+/* =========================
+      VIDEO UPLOAD
+========================= */
+
+
+const videoInput = document.createElement("input");
+
+videoInput.type = "file";
+
+videoInput.accept = "video/*";
+
+
+videoInput.style.display = "none";
+
+
+document.body.appendChild(videoInput);
+
+
+
+document.querySelector(".video-card")
+.addEventListener("click",()=>{
+
+    videoInput.click();
+
 });
 
-// Video Ready
-video.addEventListener("loadedmetadata", function () {
-    timeline.max = video.duration;
-    trimEnd = video.duration;
 
-    trimInfo.innerText =
-        "Start: " + formatTime(trimStart) +
-        " | End: " + formatTime(trimEnd);
+
+
+videoInput.addEventListener("change",(e)=>{
+
+
+const file = e.target.files[0];
+
+
+if(file){
+
+const url = URL.createObjectURL(file);
+
+video.src = url;
+
+video.load();
+
+}
+
+
 });
 
-// Timeline Update
-video.addEventListener("timeupdate", function () {
-    timeline.value = video.currentTime;
 
-    let min = Math.floor(video.currentTime / 60);
-    let sec = Math.floor(video.currentTime % 60);
 
-    if (sec < 10) sec = "0" + sec;
 
-    currentTime.innerText = min + ":" + sec;
+
+/* =========================
+      TIME UPDATE
+========================= */
+
+
+video.addEventListener("loadedmetadata",()=>{
+
+
+timeline.max = video.duration;
+
+
+endTime.innerText =
+formatTime(video.duration);
+
+
 });
 
-// Seek Timeline
-timeline.addEventListener("input", function () {
-    video.currentTime = timeline.value;
+
+
+
+video.addEventListener("timeupdate",()=>{
+
+
+timeline.value = video.currentTime;
+
+
+currentTime.innerText =
+formatTime(video.currentTime);
+
+
 });
 
-// Controls
-function playVideo() {
+
+
+
+
+timeline.addEventListener("input",()=>{
+
+
+video.currentTime =
+timeline.value;
+
+
+});
+
+
+
+
+
+function formatTime(time){
+
+
+let min =
+Math.floor(time / 60);
+
+
+let sec =
+Math.floor(time % 60);
+
+
+
+if(sec < 10)
+sec = "0"+sec;
+
+
+
+return min + ":" + sec;
+
+
+}
+
+
+
+
+
+/* =========================
+      CONTROLS LOGIC
+========================= */
+
+
+
+// PLAY BUTTON
+
+playBtn.addEventListener("click",()=>{
+
     video.play();
-}
 
-function pauseVideo() {
+});
+
+
+
+
+// PAUSE BUTTON
+
+pauseBtn.addEventListener("click",()=>{
+
     video.pause();
+
+});
+
+
+
+
+
+// FORWARD 5 SECONDS
+
+forwardBtn.addEventListener("click",()=>{
+
+
+    video.currentTime += 5;
+
+
+});
+
+
+
+
+
+// BACKWARD 5 SECONDS
+
+backwardBtn.addEventListener("click",()=>{
+
+
+    video.currentTime -= 5;
+
+
+});
+
+
+
+
+
+
+/* =========================
+        TRIM SYSTEM
+========================= */
+
+
+let trimStartTime = 0;
+
+let trimEndTime = 0;
+
+
+
+
+const trimStartBtn =
+document.getElementById("trimStart");
+
+const trimEndBtn =
+document.getElementById("trimEnd");
+
+
+
+
+
+trimStartBtn.addEventListener("click",()=>{
+
+
+trimStartTime = video.currentTime;
+
+
+console.log(
+"Trim Start:",
+trimStartTime
+);
+
+
+});
+
+
+
+
+
+
+trimEndBtn.addEventListener("click",()=>{
+
+
+trimEndTime = video.currentTime;
+
+
+console.log(
+"Trim End:",
+trimEndTime
+);
+
+
+});
+
+
+
+
+
+
+/* Prevent playing after trim end */
+
+
+video.addEventListener("timeupdate",()=>{
+
+
+if(trimEndTime > 0 && video.currentTime >= trimEndTime){
+
+
+video.pause();
+
+
 }
 
-function backward() {
-    video.currentTime = Math.max(0, video.currentTime - 5);
-}
 
-function forward() {
-    video.currentTime = Math.min(video.duration, video.currentTime + 5);
-}
+});
 
-// Time Format
-function formatTime(seconds) {
-    let min = Math.floor(seconds / 60);
-    let sec = Math.floor(seconds % 60);
 
-    if (sec < 10) sec = "0" + sec;
 
-    return min + ":" + sec;
-}
 
-// Trim Start
-function setTrimStart() {
-    trimStart = video.currentTime;
 
-    trimInfo.innerText =
-        "Start: " + formatTime(trimStart) +
-        " | End: " + formatTime(trimEnd);
-}
 
-// Trim End
-function setTrimEnd() {
-    trimEnd = video.currentTime;
+/* =========================
+   BOTTOM TOOLBAR + PANEL
+========================= */
 
-    trimInfo.innerText =
-        "Start: " + formatTime(trimStart) +
-        " | End: " + formatTime(trimEnd);
-}
+
+const toolButtons =
+document.querySelectorAll(".tool-btn");
+
+
+const toolPanel =
+document.getElementById("toolPanel");
+
+
+const closePanel =
+document.getElementById("closePanel");
+
+
+const toolContent =
+document.getElementById("toolContent");
+
+
+
+
+
+// OPEN PANEL FROM TOOLBAR
+
+
+toolButtons.forEach(button=>{
+
+
+button.addEventListener("click",()=>{
+
+
+let tool =
+button.dataset.tool;
+
+
+
+toolPanel.classList.add("active");
+
+
+
+toolContent.innerHTML = `
+
+<h3>${tool.toUpperCase()}</h3>
+
+<p>
+${tool} tools will appear here.
+</p>
+
+`;
+
+
+
+});
+
+
+});
+
+
+
+
+
+// CLOSE PANEL
+
+
+closePanel.addEventListener("click",()=>{
+
+
+toolPanel.classList.remove("active");
+
+
+});
+
+
+
+
+
+
+/* =========================
+      PANEL CATEGORY
+========================= */
+
+
+const categoryButtons =
+document.querySelectorAll(".tool-category button");
+
+
+
+categoryButtons.forEach(btn=>{
+
+
+btn.addEventListener("click",()=>{
+
+
+toolContent.innerHTML = `
+
+<h3>
+${btn.innerText}
+</h3>
+
+<p>
+${btn.innerText} options loading...
+</p>
+
+`;
+
+
+});
+
+
+});
